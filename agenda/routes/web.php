@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::view('forgotPassword', 'resetPassword')->name('password.reset');
+
 Route::get('/', function () {
     return view('welcome');
 });
