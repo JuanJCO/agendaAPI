@@ -182,13 +182,15 @@ class AuthController extends Controller
         if($data){
 
             $contact = Contact::where('user_id', $id)
-                                ->where('name', 'like', $word)->get();
-            $contactEmail = Contact::where('user_id', $id)
-                                    ->where('mail', 'like', $word)->get();
-            $contactPhone = Contact::where('user_id', $id)
-                                    ->where('phone', 'like', $word)->get();
+                                ->where('name', 'like', $word)
+                                ->orWhere('mail', 'like', $word)
+                                ->orWhere('phone', 'like', $word)->get();
 
-            return response($contact.$contactEmail.$contactPhone);
+            if ($contact->isEmpty()){
+                return response()->json('No se ha encontrado ningún contacto', 404);
+            }
+
+            return response($contact);
         }
     }
 }
